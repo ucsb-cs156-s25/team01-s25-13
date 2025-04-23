@@ -4,7 +4,6 @@ import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
 import edu.ucsb.cs156.example.ControllerTestCase;
 import edu.ucsb.cs156.example.entities.Article;
-import edu.ucsb.cs156.example.entities.UCSBDate;
 import edu.ucsb.cs156.example.repositories.ArticleRepository;
 
 import java.util.ArrayList;
@@ -202,5 +201,84 @@ public class ArticlesControllerTest extends ControllerTestCase {
                 String expectedJson = mapper.writeValueAsString(article1);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
+        }
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_article() throws Exception {
+                // arrange
+
+                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+                LocalDateTime ldt2 = LocalDateTime.parse("2023-01-03T00:00:00");
+
+                Article origArticle = Article.builder()
+                                .title("HowDoBirdsFly")
+                                .url("https://www.britannica.com/animal/bird-animal/Flight")
+                                .explanation("ThisIsHow")
+                                .email("tuancle@ucsb.edu")
+                                .dateAdded(ldt1)
+                                .build();
+
+                Article newArticle = Article.builder()
+                                .title("Why the sky is blue")
+                                .url("https://spaceplace.nasa.gov/blue-sky/en/")
+                                .explanation("This is why the sky is blue...")
+                                .email("tuancle@ucsb.edu")
+                                .dateAdded(ldt2)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(newArticle);
+
+                when(articleRepository.findById(eq(67L))).thenReturn(Optional.of(origArticle));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/articles?id=67")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(articleRepository, times(1)).findById(67L);
+                verify(articleRepository, times(1)).save(newArticle); // should be saved with correct user
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_ucsbdate_that_does_not_exist() throws Exception {
+                // arrange
+
+                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+
+                Article ucsbEditedDate = Article.builder()
+                                .title("HowDoBirdsFly")
+                                .url("https://www.britannica.com/animal/bird-animal/Flight")
+                                .explanation("ThisIsHow")
+                                .email("tuancle@ucsb.edu")
+                                .dateAdded(ldt1)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(ucsbEditedDate);
+
+                when(articleRepository.findById(eq(67L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/articles?id=67")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(articleRepository, times(1)).findById(67L);
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("Article with id 67 not found", json.get("message"));
+
         }
 }
