@@ -223,7 +223,7 @@ public class ArticlesControllerTest extends ControllerTestCase {
                                 .title("Why the sky is blue")
                                 .url("https://spaceplace.nasa.gov/blue-sky/en/")
                                 .explanation("This is why the sky is blue...")
-                                .email("tuancle@ucsb.edu")
+                                .email("helpme@ucsb.edu")
                                 .dateAdded(ldt2)
                                 .build();
 
