@@ -249,12 +249,12 @@ public class ArticlesControllerTest extends ControllerTestCase {
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_cannot_edit_ucsbdate_that_does_not_exist() throws Exception {
+        public void admin_cannot_edit_article_that_does_not_exist() throws Exception {
                 // arrange
 
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
-                Article ucsbEditedDate = Article.builder()
+                Article article = Article.builder()
                                 .title("HowDoBirdsFly")
                                 .url("https://www.britannica.com/animal/bird-animal/Flight")
                                 .explanation("ThisIsHow")
@@ -262,7 +262,7 @@ public class ArticlesControllerTest extends ControllerTestCase {
                                 .dateAdded(ldt1)
                                 .build();
 
-                String requestBody = mapper.writeValueAsString(ucsbEditedDate);
+                String requestBody = mapper.writeValueAsString(article);
 
                 when(articleRepository.findById(eq(67L))).thenReturn(Optional.empty());
 
@@ -279,6 +279,5 @@ public class ArticlesControllerTest extends ControllerTestCase {
                 verify(articleRepository, times(1)).findById(67L);
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Article with id 67 not found", json.get("message"));
-
         }
 }
