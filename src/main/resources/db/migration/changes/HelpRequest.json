@@ -28,22 +28,31 @@
                       "primaryKey": true,
                       "primaryKeyName": "HelpRequest_PK"
                     },
-                    "name": "ID",
-                    "type": "BIGINT"
+                    "name": "REQUESTER_EMAIL",
+                    "type": "VARCHAR(255)"
                   }
                 },
                 {
                   "column": {
-                    "constraints": {
-                      "nullable": false
-                    },
-                    "name": "ADMIN",
-                    "type": "BOOLEAN"
+                    "name": "TEAMID",
+                    "type": "VARCHAR(255)"
                   }
                 },
                 {
                   "column": {
-                    "name": "EMAIL",
+                    "name": "TABLE_OR_BREAKOUT_ROOM",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "LOCAL_DATE_TIME",
+                    "type": "TIMESTAMP"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "EXPLANATION",
                     "type": "VARCHAR(255)"
                   }
                 },
@@ -52,50 +61,8 @@
                     "constraints": {
                       "nullable": false
                     },
-                    "name": "EMAIL_VERIFIED",
+                    "name": "SOLVED",
                     "type": "BOOLEAN"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "FAMILY_NAME",
-                    "type": "VARCHAR(255)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "FULL_NAME",
-                    "type": "VARCHAR(255)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "GIVEN_NAME",
-                    "type": "VARCHAR(255)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "GOOGLE_SUB",
-                    "type": "VARCHAR(255)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "HOSTED_DOMAIN",
-                    "type": "VARCHAR(255)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "LOCALE",
-                    "type": "VARCHAR(255)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "PICTURE_URL",
-                    "type": "VARCHAR(255)"
                   }
                 }]
               ,
