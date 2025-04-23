@@ -11,7 +11,7 @@
             "not": [
               {
                 "tableExists": {
-                  "tableName": "HelpRequest"
+                  "tableName": "HELP_REQUEST"
                 }
               }
             ]
@@ -23,7 +23,6 @@
               "columns": [
                 {
                   "column": {
-                    "autoIncrement": true,
                     "constraints": {
                       "primaryKey": true,
                       "primaryKeyName": "HelpRequest_PK"
@@ -46,7 +45,7 @@
                 },
                 {
                   "column": {
-                    "name": "LOCAL_DATE_TIME",
+                    "name": "REQUEST_TIME",
                     "type": "TIMESTAMP"
                   }
                 },
@@ -66,10 +65,11 @@
                   }
                 }]
               ,
-              "tableName": "HelpRequest"
+              "tableName": "HELP_REQUEST"
             }
-          }]
-  
+          }
+        ]
       }
     }
-  ]}
+  ]
+}
