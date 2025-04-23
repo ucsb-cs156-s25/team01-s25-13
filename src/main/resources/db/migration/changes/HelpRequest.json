@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
     {
       "changeSet": {
-        "id": "HelpRequests-1",
+        "id": "HelpRequest-1",
         "author": "chengcxi",
         "preConditions": [
           {
@@ -11,7 +11,7 @@
             "not": [
               {
                 "tableExists": {
-                  "tableName": "HelpRequests"
+                  "tableName": "HelpRequest"
                 }
               }
             ]
@@ -26,7 +26,7 @@
                     "autoIncrement": true,
                     "constraints": {
                       "primaryKey": true,
-                      "primaryKeyName": "HelpRequests_PK"
+                      "primaryKeyName": "HelpRequest_PK"
                     },
                     "name": "ID",
                     "type": "BIGINT"
@@ -99,7 +99,7 @@
                   }
                 }]
               ,
-              "tableName": "HelpRequests"
+              "tableName": "HelpRequest"
             }
           }]
   
