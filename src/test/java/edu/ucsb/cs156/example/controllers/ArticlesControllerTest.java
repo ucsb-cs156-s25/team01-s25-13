@@ -4,6 +4,7 @@ import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
 import edu.ucsb.cs156.example.ControllerTestCase;
 import edu.ucsb.cs156.example.entities.Article;
+import edu.ucsb.cs156.example.entities.UCSBDate;
 import edu.ucsb.cs156.example.repositories.ArticleRepository;
 
 import java.util.ArrayList;
@@ -57,6 +58,12 @@ public class ArticlesControllerTest extends ControllerTestCase {
                                 .andExpect(status().is(200)); // logged
         }
 
+        @Test
+        public void logged_out_users_cannot_get_by_id() throws Exception {
+                mockMvc.perform(get("/api/articles?id=7"))
+                                .andExpect(status().is(403)); // logged out users can't get by id
+        }
+
         // Authorization tests for /api/articles/post
         // (Perhaps should also have these for put and delete)
 
@@ -74,6 +81,55 @@ public class ArticlesControllerTest extends ControllerTestCase {
         }
 
         // // Tests with mocks for database actions
+
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+                // arrange
+                LocalDateTime ldt = LocalDateTime.parse("2022-01-03T00:00:00");
+
+                Article article = Article.builder()
+                                .title("How Do Birds Fly?")
+                                .url("https://www.britannica.com/animal/bird-animal/Flight")
+                                .explanation("This is how birds fly...")
+                                .email("tuancle@ucsb.edu")
+                                .dateAdded(ldt)
+                                .build();
+
+                when(articleRepository.findById(eq(7L))).thenReturn(Optional.of(article));
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/articles?id=7"))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+
+                verify(articleRepository, times(1)).findById(eq(7L));
+                String expectedJson = mapper.writeValueAsString(article);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
+
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
+
+                // arrange
+
+                when(articleRepository.findById(eq(7L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/articles?id=7"))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+
+                verify(articleRepository, times(1)).findById(eq(7L));
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("EntityNotFoundException", json.get("type"));
+                assertEquals("Article with id 7 not found", json.get("message"));
+        }
 
         @WithMockUser(roles = { "USER" })
         @Test
