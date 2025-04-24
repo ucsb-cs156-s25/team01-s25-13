@@ -74,7 +74,7 @@ import java.time.LocalDateTime;
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/post&quot;)
     public MenuItemReview postMenuItemReview(
-            @Parameter(name=&quot;itemID&quot;) @RequestParam int itemID,
+            @Parameter(name=&quot;itemID&quot;) @RequestParam long itemID,
             @Parameter(name=&quot;reviewerEmail&quot;) @RequestParam String reviewerEmail,
             @Parameter(name=&quot;stars&quot;) @RequestParam int stars,
             @Parameter(name=&quot;reviewDate&quot;) @RequestParam(&quot;reviewDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime reviewDate,
