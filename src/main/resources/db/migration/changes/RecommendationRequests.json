@@ -28,7 +28,7 @@
                         "primaryKeyName": "RECOMMENDATIONREQUESTS_PK"
                       },
                       "name": "ID",
-                      "type": "LONG"
+                      "type": "BIGINT"
                     }
                   },
                   {
