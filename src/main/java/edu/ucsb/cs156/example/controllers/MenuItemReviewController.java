@@ -56,31 +56,20 @@ public class MenuItemReviewController extends ApiController {
         return reviews;
     }
 
-    /**
-     * Get a single date by id
-     * 
-     * @param id the id of the date
-     * @return a UCSBDate
-     */
-    // @Operation(summary= "Get a single date")
-    // @PreAuthorize("hasRole('ROLE_USER')")
-    // @GetMapping("")
-    // public UCSBDate getById(
-    //         @Parameter(name="id") @RequestParam Long id) {
-    //     UCSBDate ucsbDate = ucsbDateRepository.findById(id)
-    //             .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
 
-    //     return ucsbDate;
-    // }
 
-    /**
-     * Create a new menu item review
-     * 
-     * @param quarterYYYYQ  the quarter in the format YYYYQ
-     * @param name          the name of the date
-     * @param localDateTime the date
-     * @return the saved ucsbdate
-     */
+/**
+ * Create a new menu item review.
+ *
+ * @param itemID the ID of the menu item being reviewed
+ * @param reviewerEmail the email of the reviewer
+ * @param stars the number of stars given in the review
+ * @param reviewDate the date and time of the review
+ * @param comments the comments included in the review
+ * @return the saved {@link MenuItemReview}
+ * @throws JsonProcessingException if there is an error processing JSON
+ */
+
     @Operation(summary= "Create a new menu item review")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
@@ -111,47 +100,5 @@ public class MenuItemReviewController extends ApiController {
 
     }
 
-    /**
-     * Delete a UCSBDate
-     * 
-     * @param id the id of the date to delete
-     * @return a message indicating the date was deleted
-     */
-    // @Operation(summary= "Delete a UCSBDate")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    // @DeleteMapping("")
-    // public Object deleteUCSBDate(
-    //         @Parameter(name="id") @RequestParam Long id) {
-    //     UCSBDate ucsbDate = ucsbDateRepository.findById(id)
-    //             .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
-
-    //     ucsbDateRepository.delete(ucsbDate);
-    //     return genericMessage("UCSBDate with id %s deleted".formatted(id));
-    // }
-
-    /**
-     * Update a single date
-     * 
-     * @param id       id of the date to update
-     * @param incoming the new date
-     * @return the updated date object
-     */
-    // @Operation(summary= "Update a single date")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    // @PutMapping("")
-    // public UCSBDate updateUCSBDate(
-    //         @Parameter(name="id") @RequestParam Long id,
-    //         @RequestBody @Valid UCSBDate incoming) {
-
-    //     UCSBDate ucsbDate = ucsbDateRepository.findById(id)
-    //             .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
-
-    //     ucsbDate.setQuarterYYYYQ(incoming.getQuarterYYYYQ());
-    //     ucsbDate.setName(incoming.getName());
-    //     ucsbDate.setLocalDateTime(incoming.getLocalDateTime());
-
-    //     ucsbDateRepository.save(ucsbDate);
-
-    //     return ucsbDate;
-    // }
+ 
 }
