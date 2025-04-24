@@ -103,7 +103,7 @@ public class MenuItemReviewController extends ApiController {
         menuItemReview.setStars(stars);
         menuItemReview.setDateReviewed(reviewDate);
         menuItemReview.setComments(comments);
-        menuItemReview.setDateReviewed(reviewDate);
+        // menuItemReview.setDateReviewed(reviewDate);
 
         MenuItemReview savedMenuItemReview = menuItemReviewRepository.save(menuItemReview);
         return savedMenuItemReview;
