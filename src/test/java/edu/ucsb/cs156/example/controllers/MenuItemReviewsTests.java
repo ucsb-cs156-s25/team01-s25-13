@@ -48,103 +48,98 @@ public class MenuItemReviewsTests extends ControllerTestCase {
     @MockBean
     UserRepository userRepository;
 
-
     // Authorization tests for /api/menuitemreviews/admin/all
 
     @Test
     public void logged_out_users_cannot_get_all() throws Exception {
-            mockMvc.perform(get("/api/menuitemreviews/all"))
-                            .andExpect(status().is(403)); // logged out users can't get all
+        mockMvc.perform(get("/api/menuitemreviews/all"))
+                .andExpect(status().is(403)); // logged out users can't get all
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void logged_in_users_can_get_all() throws Exception {
-            mockMvc.perform(get("/api/menuitemreviews/all"))
-                            .andExpect(status().is(200)); // logged
+        mockMvc.perform(get("/api/menuitemreviews/all"))
+                .andExpect(status().is(200)); // logged
     }
 
-
     // Authorization tests for /api/menuitemreviews/post
-        // (Perhaps should also have these for put and delete)
+    // (Perhaps should also have these for put and delete)
 
-        @Test
-        public void logged_out_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/menuitemreviews/post"))
-                                .andExpect(status().is(403));
-        }
+    @Test
+    public void logged_out_users_cannot_post() throws Exception {
+        mockMvc.perform(post("/api/menuitemreviews/post"))
+                .andExpect(status().is(403));
+    }
 
-        @WithMockUser(roles = { "USER" })
-        @Test
-        public void logged_in_regular_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/menuitemreviews/post"))
-                                .andExpect(status().is(403)); // only admins can post
-        }
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void logged_in_regular_users_cannot_post() throws Exception {
+        mockMvc.perform(post("/api/menuitemreviews/post"))
+                .andExpect(status().is(403)); // only admins can post
+    }
 
-        @WithMockUser(roles = { "USER" })
-        @Test
-        public void logged_in_user_can_get_all_ucsbdates() throws Exception {
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void logged_in_user_can_get_all_menuitemreviews() throws Exception {
 
-                // arrange
-                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+        // arrange
+        LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
-                MenuItemReview menuItemReview1 = MenuItemReview.builder()
-                                .itemId(0)
-                                .reviewerEmail("John Doe")
-                                .stars(0)
-                                .dateReviewed(ldt1)
-                                .comments("This is a test comment")
-                                .build();
+        MenuItemReview menuItemReview1 = MenuItemReview.builder()
+                .itemId(1)
+                .reviewerEmail("John Doe")
+                .stars(1)
+                .dateReviewed(ldt1)
+                .comments("This is a test comment")
+                .build();
 
+        ArrayList<MenuItemReview> expectedMenuItemReview = new ArrayList<>();
+        expectedMenuItemReview.add(menuItemReview1);
 
-                ArrayList<MenuItemReview> expectedMenuItemReview = new ArrayList<>();
-                expectedMenuItemReview.add(menuItemReview1);
+        when(menuItemReviewRepository.findAll()).thenReturn(expectedMenuItemReview);
 
-                when(menuItemReviewRepository.findAll()).thenReturn(expectedMenuItemReview);
+        // act
+        MvcResult response = mockMvc.perform(get("/api/menuitemreviews/all"))
+                .andExpect(status().isOk()).andReturn();
 
-                // act
-                MvcResult response = mockMvc.perform(get("/api/menuitemreviews/all"))
-                                .andExpect(status().isOk()).andReturn();
+        // assert
 
-                // assert
+        verify(menuItemReviewRepository, times(1)).findAll();
+        String expectedJson = mapper.writeValueAsString(expectedMenuItemReview);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
+    }
 
-                verify(menuItemReviewRepository, times(1)).findAll();
-                String expectedJson = mapper.writeValueAsString(expectedMenuItemReview);
-                String responseString = response.getResponse().getContentAsString();
-                assertEquals(expectedJson, responseString);
-        }
-        
-        @WithMockUser(roles = { "ADMIN", "USER" })
-        @Test
-        public void an_admin_user_can_post_a_new_ucsbmenuitemreview() throws Exception {
-                // arrange
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void an_admin_user_can_post_a_new_ucsbmenuitemreview() throws Exception {
+        // arrange
 
-                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+        LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
-                MenuItemReview menuItemReview1 = MenuItemReview.builder()
-                                .itemId(0)
-                                .reviewerEmail("John Doe")
-                                .stars(0)
-                                .dateReviewed(ldt1)
-                                .comments("This is a test comment")
-                                .build();
+        MenuItemReview menuItemReview1 = MenuItemReview.builder()
+                .itemId(1)
+                .reviewerEmail("John Doe")
+                .stars(1)
+                .dateReviewed(ldt1)
+                .comments("This is a test comment")
+                .build();
 
-                when(menuItemReviewRepository.save(eq(menuItemReview1))).thenReturn(menuItemReview1);
+        when(menuItemReviewRepository.save(eq(menuItemReview1))).thenReturn(menuItemReview1);
 
+        // act
+        MvcResult response = mockMvc.perform(
+                post("/api/menuitemreviews/post?itemID=1&reviewerEmail=John Doe&stars=1&reviewDate=2022-01-03T00:00:00&comments=This is a test comment")
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
 
-                // act
-                MvcResult response = mockMvc.perform(
-                                post("/api/menuitemreviews/post?itemID=0&reviewerEmail=John Doe&stars=0&reviewDate=2022-01-03T00:00:00&comments=This is a test comment")
-                                                .with(csrf()))
-                                .andExpect(status().isOk()).andReturn();
+        // assert
 
-                // assert
-                verify(menuItemReviewRepository, times(1)).save(eq(menuItemReview1));
-                String expectedJson = mapper.writeValueAsString(menuItemReview1);
-                String responseString = response.getResponse().getContentAsString();
-                assertEquals(expectedJson, responseString);
-        }
-
-    
+        verify(menuItemReviewRepository, times(1)).save(eq(menuItemReview1));
+        String expectedJson = mapper.writeValueAsString(menuItemReview1);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
+    }
 
 }
