@@ -111,4 +111,42 @@ public class RecommendationRequestController extends ApiController {
 
         return recommendationRequest;
     }
+
+    /**
+     * Update a single recommendation request
+     * 
+     * @param id       id of the date to update
+     * @param requesterEmail  the email of the requester
+     * @param professorEmail  the email of the professor
+     * @param explanation     the explanation of the request
+     * @param dateRequested   the date requested
+     * @param dateNeeded      the date needed
+     * @param done           whether the request is done
+     * @return the saved recommendation request
+     */
+    @Operation(summary= "Update a single recommendation request")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public RecommendationRequest updateRecommendationRequest(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid RecommendationRequest incoming) {
+
+        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
+
+        // ucsbDate.setQuarterYYYYQ(incoming.getQuarterYYYYQ());
+        // ucsbDate.setName(incoming.getName());
+        // ucsbDate.setLocalDateTime(incoming.getLocalDateTime());
+
+        recommendationRequest.setRequesterEmail(incoming.getRequesterEmail());
+        recommendationRequest.setProfessorEmail(incoming.getProfessorEmail());
+        recommendationRequest.setExplanation(incoming.getExplanation());
+        recommendationRequest.setDateRequested(incoming.getDateRequested());
+        recommendationRequest.setDateNeeded(incoming.getDateNeeded());
+        recommendationRequest.setDone(incoming.getDone());
+
+        recommendationRequestRepository.save(recommendationRequest);
+
+        return recommendationRequest;
+    }
 }
