@@ -195,9 +195,15 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/helprequest/post?requesterEmail=requesterTest&teamID=teamIdTest&teamID=tableOrBreakoutRoom=tableOrBreakoutRoomTest&localDateTime=2022-01-03T00:00:00&explanation=explanation&solved=false")
-                                                .with(csrf()))
-                                .andExpect(status().isOk()).andReturn();
+                                post("/api/helprequest/post")
+                                .param("requesterEmail", "requesterTest")
+                                .param("teamId", "teamIdTest")
+                                .param("tableOrBreakoutRoom", "tableOrBreakoutRoomTest")
+                                .param("requestTime", ldt1.toString()) // Convert LocalDateTime to String
+                                .param("explanation", "explanation")
+                                .param("solved", "false") // Convert boolean to String
+                                .with(csrf())
+                                ).andExpect(status().isOk()).andReturn();
 
                 // assert
                 verify(helpRequestRepository, times(1)).save(helpRequest1);
