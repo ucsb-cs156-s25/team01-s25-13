@@ -101,5 +101,32 @@ import java.time.LocalDateTime;
     }
 
 
+    /**
+     * Update a single menu item
+     * 
+     * @param id       id of the menu item to update
+     * @param incoming the new UCSBDiningCommonsMenuItem
+     * @return the updated UCSBDiningCommonsMenuItem object
+     */
+    @Operation(summary= &quot;Update a single date&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public UCSBDiningCommonsMenuItem updateUCSBDiningCommonsMenuItem(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid UCSBDiningCommonsMenuItem incoming) {
+
+<span class="fc" id="L118">        UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)</span>
+<span class="fc" id="L119">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));</span>
+
+<span class="fc" id="L121">		ucsbDiningCommonsMenuItem.setDiningCommonsCode(incoming.getDiningCommonsCode());</span>
+<span class="fc" id="L122">        ucsbDiningCommonsMenuItem.setName(incoming.getName());</span>
+<span class="fc" id="L123">        ucsbDiningCommonsMenuItem.setStation(incoming.getStation());</span>
+
+<span class="fc" id="L125">        ucsbDiningCommonsMenuItemRepository.save(ucsbDiningCommonsMenuItem);</span>
+
+<span class="fc" id="L127">        return ucsbDiningCommonsMenuItem;</span>
+    }
+
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
