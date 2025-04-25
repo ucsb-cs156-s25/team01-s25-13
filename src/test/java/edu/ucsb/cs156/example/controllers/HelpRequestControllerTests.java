@@ -214,7 +214,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_can_delete_a_date() throws Exception {
+        public void admin_can_delete_a_helprequest() throws Exception {
                 // arrange
 
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
@@ -344,5 +344,49 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("HelpRequest with id 67 not found", json.get("message"));
 
+        }
+
+        @WithMockUser(roles = { "ADMIN" }) // Only admins can update
+        @Test
+        public void test_admin_can_update_helpRequest() throws Exception {
+        // Arrange
+        LocalDateTime ldt = LocalDateTime.parse("2022-01-03T00:00:00");
+        HelpRequest existing = HelpRequest.builder()
+                .requesterEmail("original@example.com")
+                .teamId("team1")
+                .tableOrBreakoutRoom("room1")
+                .requestTime(ldt)
+                .explanation("original explanation")
+                .solved(false)
+                .build();
+
+        HelpRequest updated = HelpRequest.builder()
+                .requesterEmail("updated@example.com")
+                .teamId("team2")
+                .tableOrBreakoutRoom("room2")
+                .requestTime(ldt.plusDays(1))
+                .explanation("updated explanation")
+                .solved(true)
+                .build();
+
+        when(helpRequestRepository.findById(eq(7L))).thenReturn(Optional.of(existing));
+        when(helpRequestRepository.save(any(HelpRequest.class))).thenReturn(updated);
+
+        // Act
+        String requestBody = mapper.writeValueAsString(updated);
+
+        MvcResult response = mockMvc.perform(
+                put("/api/helprequest?id=7")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        // Assert
+        verify(helpRequestRepository, times(1)).findById(7L);
+        verify(helpRequestRepository, times(1)).save(any(HelpRequest.class));
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(mapper.writeValueAsString(updated), responseString);
         }
 }
