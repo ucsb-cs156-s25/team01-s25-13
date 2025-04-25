@@ -100,6 +100,51 @@ import java.time.LocalDateTime;
 
     }
 
+    /**
+     * Get a single review by id
+     * 
+     * @param id the id of the review
+     * @return a MenuItemReview
+     */
+    @Operation(summary= &quot;Get a single review&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public MenuItemReview getById(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L114">        MenuItemReview menuItemReview = menuItemReviewRepository.findById(id)</span>
+<span class="fc" id="L115">                .orElseThrow(() -&gt; new EntityNotFoundException(MenuItemReview.class, id));</span>
+
+<span class="fc" id="L117">        return menuItemReview;</span>
+    }
+
+     /**
+     * Update a single review
+     * 
+     * @param id       id of the review to update
+     * @param incoming the new review
+     * @return the updated review object
+     */
+    @Operation(summary= &quot;Update a single review&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public MenuItemReview updateReview(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid MenuItemReview incoming) {
+
+<span class="fc" id="L134">        MenuItemReview menuItemReview = menuItemReviewRepository.findById(id)</span>
+<span class="fc" id="L135">                .orElseThrow(() -&gt; new EntityNotFoundException(MenuItemReview.class, id));</span>
+
+<span class="fc" id="L137">        menuItemReview.setItemId(incoming.getItemId());</span>
+<span class="fc" id="L138">        menuItemReview.setReviewerEmail(incoming.getReviewerEmail());</span>
+<span class="fc" id="L139">        menuItemReview.setStars(incoming.getStars());</span>
+<span class="fc" id="L140">        menuItemReview.setDateReviewed(incoming.getDateReviewed());</span>
+<span class="fc" id="L141">        menuItemReview.setComments(incoming.getComments());</span>
+
+<span class="fc" id="L143">        menuItemReviewRepository.save(menuItemReview);</span>
+
+<span class="fc" id="L145">        return menuItemReview;</span>
+    }
+
  
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
