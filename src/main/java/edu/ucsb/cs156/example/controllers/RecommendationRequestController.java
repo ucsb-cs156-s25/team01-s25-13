@@ -115,13 +115,8 @@ public class RecommendationRequestController extends ApiController {
     /**
      * Update a single recommendation request
      * 
-
-     * @param requesterEmail  the email of the requester
-     * @param professorEmail  the email of the professor
-     * @param explanation     the explanation of the request
-     * @param dateRequested   the date requested
-     * @param dateNeeded      the date needed
-     * @param done           whether the request is done
+     * @param id       id of the recommendation request to update
+     * @param incoming the incoming recommendation request
      * @return the saved recommendation request
      */
     @Operation(summary= "Update a single recommendation request")
@@ -133,10 +128,6 @@ public class RecommendationRequestController extends ApiController {
 
         RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
-
-        // ucsbDate.setQuarterYYYYQ(incoming.getQuarterYYYYQ());
-        // ucsbDate.setName(incoming.getName());
-        // ucsbDate.setLocalDateTime(incoming.getLocalDateTime());
 
         recommendationRequest.setRequesterEmail(incoming.getRequesterEmail());
         recommendationRequest.setProfessorEmail(incoming.getProfessorEmail());
