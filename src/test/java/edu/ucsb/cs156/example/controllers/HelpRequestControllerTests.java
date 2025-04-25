@@ -389,41 +389,41 @@ public class HelpRequestControllerTests extends ControllerTestCase {
         String responseString = response.getResponse().getContentAsString();
         assertEquals(mapper.writeValueAsString(updated), responseString);
         }
-        
         @WithMockUser(roles = { "USER" })
         @Test
-        public void test_postHelpRequest_setsSolvedCorrectly() throws Exception {
-        // Arrange
-        LocalDateTime ldt = LocalDateTime.parse("2022-01-03T00:00:00");
-
-        HelpRequest toSave = HelpRequest.builder()
-                .requesterEmail("new@example.com")
-                .teamId("teamX")
-                .tableOrBreakoutRoom("roomX")
-                .requestTime(ldt)
-                .explanation("need help")
-                .solved(true) // true for this test
-                .build();
-
-        // The repository should return this object after saving
-        when(helpRequestRepository.save(any(HelpRequest.class))).thenReturn(toSave);
-
-        // Act: Call the endpoint
-        MvcResult response = mockMvc.perform(post("/api/helprequest/post")
-                .param("requesterEmail", "new@example.com")
-                .param("teamId", "teamX")
-                .param("tableOrBreakoutRoom", "roomX")
-                .param("requestTime", "2022-01-03T00:00:00")
-                .param("explanation", "need help")
-                .param("solved", "true")
-                .with(csrf()))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        // Assert: parse the returned JSON and check "solved"
-        String responseString = response.getResponse().getContentAsString();
-        HelpRequest returned = mapper.readValue(responseString, HelpRequest.class);
-
-        assertEquals(true, returned.getSolved(), "The 'solved' field should be set to true");
+        public void test_postHelpRequest_sets_solved_correctly() throws Exception {
+            // arrange
+            LocalDateTime requestTime = LocalDateTime.parse("2022-01-03T00:00:00");
+        
+            HelpRequest expected = HelpRequest.builder()
+                    .requesterEmail("test@example.com")
+                    .teamId("s22-6pm-1")
+                    .tableOrBreakoutRoom("table 3")
+                    .requestTime(requestTime)
+                    .explanation("Need help with Spring Boot")
+                    .solved(true)
+                    .build();
+        
+            when(helpRequestRepository.save(any(HelpRequest.class))).thenReturn(expected);
+        
+            // act
+            MvcResult response = mockMvc.perform(post("/api/helprequest/post")
+                    .param("requesterEmail", "test@example.com")
+                    .param("teamId", "s22-6pm-1")
+                    .param("tableOrBreakoutRoom", "table 3")
+                    .param("requestTime", "2022-01-03T00:00:00")
+                    .param("explanation", "Need help with Spring Boot")
+                    .param("solved", "true")
+                    .with(csrf()))
+                    .andExpect(status().isOk())
+                    .andReturn();
+        
+            // assert
+            String responseString = response.getResponse().getContentAsString();
+            String expectedJson = mapper.writeValueAsString(expected);
+            assertEquals(expectedJson, responseString);
+        
+            // Additional verification: ensure setSolved(true) was used
+            verify(helpRequestRepository, times(1)).save(any(HelpRequest.class));
         }
 }
