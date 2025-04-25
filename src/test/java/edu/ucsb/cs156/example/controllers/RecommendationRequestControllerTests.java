@@ -41,31 +41,31 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
     @MockBean
     UserRepository userRepository;
 
-    // Authorization tests for /api/recommendationrequest/admin/all
+    // Authorization tests for /api/recommendationRequest/admin/all
 
     @Test
     public void logged_out_users_cannot_get_all() throws Exception {
-        mockMvc.perform(get("/api/recommendationrequest/all"))
+        mockMvc.perform(get("/api/recommendationRequest/all"))
                         .andExpect(status().is(403)); // logged out users can't get all
     }
     @WithMockUser(roles = { "USER" })
 
     @Test
     public void logged_in_users_can_get_all() throws Exception {
-        mockMvc.perform(get("/api/recommendationrequest/all"))
+        mockMvc.perform(get("/api/recommendationRequest/all"))
                         .andExpect(status().is(200)); // logged
     }
     
     @Test
     public void logged_out_users_cannot_post() throws Exception {
-        mockMvc.perform(post("/api/recommendationrequest/post"))
+        mockMvc.perform(post("/api/recommendationRequest/post"))
                         .andExpect(status().is(403));
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void logged_in_regular_users_cannot_post() throws Exception {
-        mockMvc.perform(post("/api/recommendationrequest/post"))
+        mockMvc.perform(post("/api/recommendationRequest/post"))
                         .andExpect(status().is(403)); // only admins can post
     }
 
@@ -93,7 +93,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
         when(recommendationRequestRepository.findAll()).thenReturn(expectedRecommendationRequests);
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/recommendationrequest/all"))
+        MvcResult response = mockMvc.perform(get("/api/recommendationRequest/all"))
                         .andExpect(status().isOk()).andReturn();
 
         // assert
@@ -121,7 +121,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
         when(recommendationRequestRepository.save(eq(recommendationRequest1))).thenReturn(recommendationRequest1);
         // act
         MvcResult response = mockMvc.perform(
-                        post("/api/recommendationrequest/post?requesterEmail=cgaucho@ucsb.edu&professorEmail=phtcon@ucsb.edu&explanation=BS/MSprogram&dateRequested=2022-04-20T00:00:00&dateNeeded=2022-05-01T00:00:00&done=false")
+                        post("/api/recommendationRequest/post?requesterEmail=cgaucho@ucsb.edu&professorEmail=phtcon@ucsb.edu&explanation=BS/MSprogram&dateRequested=2022-04-20T00:00:00&dateNeeded=2022-05-01T00:00:00&done=false")
                                         .with(csrf()))
                         .andExpect(status().isOk()).andReturn();
         // assert
