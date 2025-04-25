@@ -81,7 +81,7 @@ public class HelpRequestController extends ApiController {
      * @return the saved helpRequest
      */
     @Operation(summary= "Create a new helpRequest")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public HelpRequest postHelpRequest(
             @Parameter(name="requesterEmail") @RequestParam String requesterEmail,

@@ -175,7 +175,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 
-        @WithMockUser(roles = { "USER" })
+        @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
         public void an_admin_user_can_post_a_new_helprequest() throws Exception {
                 // arrange
