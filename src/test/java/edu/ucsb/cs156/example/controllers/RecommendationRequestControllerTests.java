@@ -227,12 +227,6 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
     @Test
     public void admin_cannot_edit_recommendationrequest_that_does_not_exist() throws Exception {
             // arrange
-            // LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
-            // UCSBDate ucsbEditedDate = UCSBDate.builder()
-            //                 .name("firstDayOfClasses")
-            //                 .quarterYYYYQ("20222")
-            //                 .localDateTime(ldt1)
-            //                 .build();
 
             LocalDateTime ldt1 = LocalDateTime.parse("2022-04-20T00:00:00");
             LocalDateTime ldt2 = LocalDateTime.parse("2022-05-01T00:00:00");

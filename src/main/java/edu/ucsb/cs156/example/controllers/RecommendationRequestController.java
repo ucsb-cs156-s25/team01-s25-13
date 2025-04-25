@@ -115,7 +115,7 @@ public class RecommendationRequestController extends ApiController {
     /**
      * Update a single recommendation request
      * 
-     * @param id       id of the date to update
+
      * @param requesterEmail  the email of the requester
      * @param professorEmail  the email of the professor
      * @param explanation     the explanation of the request
