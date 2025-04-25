@@ -1,7 +1,6 @@
 package edu.ucsb.cs156.example.controllers;
 
 import edu.ucsb.cs156.example.entities.HelpRequest;
-import edu.ucsb.cs156.example.entities.HelpRequest;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.HelpRequestRepository;
 
@@ -52,9 +51,8 @@ public class HelpRequestController extends ApiController {
         Iterable<HelpRequest> helpRequest = helpRequestRepository.findAll();
         return helpRequest;
     }
-    
-}
-/**
+
+    /**
      * Get a single HelpRequest by id
      * 
      * @param id the id of the helpRequest
@@ -68,7 +66,7 @@ public class HelpRequestController extends ApiController {
         HelpRequest helprequest = helpRequestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
 
-        return helpRequest;
+        return helprequest;
     }
 
     /**
@@ -83,7 +81,7 @@ public class HelpRequestController extends ApiController {
      * @return the saved helpRequest
      */
     @Operation(summary= "Create a new helpRequest")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/post")
     public HelpRequest postHelpRequest(
             @Parameter(name="requesterEmail") @RequestParam String requesterEmail,
@@ -91,7 +89,7 @@ public class HelpRequestController extends ApiController {
             @Parameter(name="tableOrBreakoutRoom") @RequestParam String tableOrBreakoutRoom,
             @Parameter(name="requestTime", description="date (in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601)") @RequestParam("requestTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime requestTime,
             @Parameter(name="explanation") @RequestParam String explanation,
-            @Parameter(name="solved") @RequestParam boolean solved
+            @Parameter(name="solved") @RequestParam boolean solved)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
