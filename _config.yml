@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s25/team01-s25-13
 owner: ucsb-cs156-s25
 repo_name: team01-s25-13
-pull_requests: [{"author":{"id":"U_kgDOCM8Qxw","is_bot":false,"login":"k-nn-tht","name":"Kenneth Tan"},"headRefName":"Kenneth-RecommendationRequest-put-recreq-table","number":66,"title":"Kenneth recommendation request put recreq table","url":"https://github.com/ucsb-cs156-s25/team01-s25-13/pull/66"}]
+pull_requests: [{"author":{"id":"U_kgDOCM8Qxw","is_bot":false,"login":"k-nn-tht","name":"Kenneth Tan"},"headRefName":"Kenneth-RecommendationRequest-delete-recreq","number":67,"title":"Kenneth recommendation request delete recreq","url":"https://github.com/ucsb-cs156-s25/team01-s25-13/pull/67"},{"author":{"id":"U_kgDOCM8Qxw","is_bot":false,"login":"k-nn-tht","name":"Kenneth Tan"},"headRefName":"Kenneth-RecommendationRequest-put-recreq-table","number":66,"title":"Kenneth recommendation request put recreq table","url":"https://github.com/ucsb-cs156-s25/team01-s25-13/pull/66"}]
