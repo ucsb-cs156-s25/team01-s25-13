@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
  */
 
 @Tag(name = "RecommendationRequests")
-@RequestMapping("/api/recommendationRequest")
+@RequestMapping("/api/recommendationrequest")
 @RestController
 @Slf4j
 public class RecommendationRequestController extends ApiController {
