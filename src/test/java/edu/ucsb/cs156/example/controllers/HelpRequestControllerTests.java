@@ -93,7 +93,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .teamId("teamIdTest")
                                 .tableOrBreakoutRoom("tableOrBreakoutRoomTest")
                                 .requestTime(ldt)
-                                .explanation(null)
+                                .explanation("explanation")
                                 .solved(false)
                                 .build();
 
@@ -143,7 +143,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .teamId("teamIdTest")
                                 .tableOrBreakoutRoom("tableOrBreakoutRoomTest")
                                 .requestTime(ldt1)
-                                .explanation(null)
+                                .explanation("explanation")
                                 .solved(false)
                                 .build();
 
@@ -154,7 +154,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .teamId("teamIdTest")
                                 .tableOrBreakoutRoom("tableOrBreakoutRoomTest")
                                 .requestTime(ldt2)
-                                .explanation(null)
+                                .explanation("explanation")
                                 .solved(false)
                                 .build();
 
@@ -187,7 +187,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .teamId("teamIdTest")
                                 .tableOrBreakoutRoom("tableOrBreakoutRoomTest")
                                 .requestTime(ldt1)
-                                .explanation(null)
+                                .explanation("explanation")
                                 .solved(false)
                                 .build();
 
@@ -218,7 +218,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .teamId("teamIdTest")
                                 .tableOrBreakoutRoom("tableOrBreakoutRoomTest")
                                 .requestTime(ldt1)
-                                .explanation(null)
+                                .explanation("explanation")
                                 .solved(false)
                                 .build();
 
@@ -271,7 +271,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .teamId("teamIdTest")
                                 .tableOrBreakoutRoom("tableOrBreakoutRoomTest")
                                 .requestTime(ldt1)
-                                .explanation(null)
+                                .explanation("explanation")
                                 .solved(false)
                                 .build();
 
@@ -280,7 +280,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .teamId("teamIdTest")
                                 .tableOrBreakoutRoom("tableOrBreakoutRoomTest")
                                 .requestTime(ldt2)
-                                .explanation(null)
+                                .explanation("explanation")
                                 .solved(false)
                                 .build();
 
@@ -316,7 +316,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .teamId("teamIdTest")
                                 .tableOrBreakoutRoom("tableOrBreakoutRoomTest")
                                 .requestTime(ldt1)
-                                .explanation(null)
+                                .explanation("explanation")
                                 .solved(false)
                                 .build();
 
