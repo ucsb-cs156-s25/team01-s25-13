@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
     {
         "changeSet": {
-          "id": "RecommendationRequests-2",
+          "id": "RecommendationRequests-3",
           "author": "KennethT",
           "preConditions": [
             {
@@ -23,6 +23,7 @@
                 "columns": [
                   {
                     "column": {
+                      "autoIncrement": true,
                       "constraints": {
                         "primaryKey": true,
                         "primaryKeyName": "RECOMMENDATIONREQUESTS_PK"
