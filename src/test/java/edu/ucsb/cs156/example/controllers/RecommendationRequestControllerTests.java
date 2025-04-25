@@ -84,7 +84,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                         .explanation("test")
                         .dateRequested(ldt1)
                         .dateNeeded(ldt2)
-                        .done(false)
+                        .done(true)
                         .build();
 
         ArrayList<RecommendationRequest> expectedRecommendationRequests = new ArrayList<>();
@@ -116,12 +116,12 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                         .explanation("BS/MSprogram")
                         .dateRequested(ldt1)
                         .dateNeeded(ldt2)
-                        .done(false)
+                        .done(true)
                         .build();
         when(recommendationRequestRepository.save(eq(recommendationRequest1))).thenReturn(recommendationRequest1);
         // act
         MvcResult response = mockMvc.perform(
-                        post("/api/recommendationRequest/post?requesterEmail=cgaucho@ucsb.edu&professorEmail=phtcon@ucsb.edu&explanation=BS/MSprogram&dateRequested=2022-04-20T00:00:00&dateNeeded=2022-05-01T00:00:00&done=false")
+                        post("/api/recommendationRequest/post?requesterEmail=cgaucho@ucsb.edu&professorEmail=phtcon@ucsb.edu&explanation=BS/MSprogram&dateRequested=2022-04-20T00:00:00&dateNeeded=2022-05-01T00:00:00&done=true")
                                         .with(csrf()))
                         .andExpect(status().isOk()).andReturn();
         // assert
