@@ -184,7 +184,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 verify(ucsbOrganizationRepository, times(1)).findById(eq("CSU"));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
-                assertEquals("UCSBOrganization with orgCode CSU not found", json.get("message"));
+                assertEquals("UCSBOrganization with id CSU not found", json.get("message"));
         }
 
 }
